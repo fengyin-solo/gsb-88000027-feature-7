@@ -11,9 +11,10 @@ defineProps({
 
 <template>
   <div class="batch-grid">
-    <article
+    <RouterLink
       v-for="item in items"
       :key="item.code"
+      :to="`/batches/${item.code}`"
       class="batch-card"
     >
       <div class="batch-head">
@@ -24,9 +25,13 @@ defineProps({
       </div>
       <h4>{{ item.title }}</h4>
       <p>页码：{{ item.pages }}</p>
-      <p>阶段：{{ item.status }}</p>
-      <small>{{ item.note }}</small>
-    </article>
+      <p>
+        最新阶段：<strong>{{ item.status }}</strong>
+      </p>
+      <small v-if="item.lastReason">最近办理：{{ item.lastReason }}</small>
+      <small v-else>{{ item.note }}</small>
+      <span class="card-cta">查看流转历史 →</span>
+    </RouterLink>
   </div>
 </template>
 
@@ -38,10 +43,21 @@ defineProps({
 }
 
 .batch-card {
+  display: grid;
+  align-content: start;
+  gap: 0;
   padding: 18px;
   border-radius: 20px;
   background: #f4ebda;
   border: 1px solid rgba(109, 80, 40, 0.08);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.batch-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(100, 73, 34, 0.12);
 }
 
 .batch-head {
@@ -68,8 +84,15 @@ small {
 }
 
 p + p,
-p + small {
+p + small,
+small + .card-cta {
   margin-top: 6px;
+}
+
+.card-cta {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: #5d4322;
 }
 
 .risk-pill {
