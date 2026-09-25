@@ -65,9 +65,12 @@ export const restorationSteps = [
   '平整定型 8 小时后转入无酸盒暂存。',
 ]
 
+export const restorationStages = ['补纸前', '控湿中', '归档前']
+
 export const restorationTasks = [
   {
     title: '明抄本县志残卷',
+    batchCode: 'A-03',
     stage: '补纸前',
     risk: 'high',
     owner: '韩澈',
@@ -75,6 +78,7 @@ export const restorationTasks = [
   },
   {
     title: '碑帖拓片册页',
+    batchCode: 'B-11',
     stage: '控湿中',
     risk: 'medium',
     owner: '陆宁',
@@ -82,6 +86,7 @@ export const restorationTasks = [
   },
   {
     title: '戏曲抄本散页',
+    batchCode: 'C-02',
     stage: '归档前',
     risk: 'low',
     owner: '周恬',

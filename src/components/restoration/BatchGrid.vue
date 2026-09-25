@@ -1,5 +1,5 @@
 <script setup>
-import { riskMeta } from '../../utils/restorationFormatters'
+import { riskMeta, stageMeta } from '../../utils/restorationFormatters'
 
 defineProps({
   items: {
@@ -24,7 +24,12 @@ defineProps({
       </div>
       <h4>{{ item.title }}</h4>
       <p>页码：{{ item.pages }}</p>
-      <p>阶段：{{ item.status }}</p>
+      <p class="stage-line">
+        阶段：
+        <span :class="['stage-pill', `stage-pill--${stageMeta(item.status).tone}`]">
+          {{ item.status }}
+        </span>
+      </p>
       <small>{{ item.note }}</small>
     </article>
   </div>
@@ -89,6 +94,33 @@ p + small {
 }
 
 .risk-pill--low {
+  background: #d9ead9;
+  color: #366338;
+}
+
+.stage-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stage-pill {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+}
+
+.stage-pill--prepare {
+  background: #efe2ca;
+  color: #7e6038;
+}
+
+.stage-pill--humidity {
+  background: #d7e6ef;
+  color: #2f5d75;
+}
+
+.stage-pill--archive {
   background: #d9ead9;
   color: #366338;
 }

@@ -4,16 +4,20 @@ import StatCard from '../components/common/StatCard.vue'
 import BatchGrid from '../components/restoration/BatchGrid.vue'
 import EnvironmentCards from '../components/restoration/EnvironmentCards.vue'
 import HeroBanner from '../components/restoration/HeroBanner.vue'
+import StageFlowFeedback from '../components/restoration/StageFlowFeedback.vue'
+import StageHistoryList from '../components/restoration/StageHistoryList.vue'
+import StageTransitionForm from '../components/restoration/StageTransitionForm.vue'
 import {
-  restorationBatches,
   restorationEnvironment,
   restorationHero,
   restorationSteps,
 } from '../data/restorationData'
+import { useRestorationFlow } from '../composables/useRestorationFlow'
 import { useRestorationOverview } from '../composables/useRestorationOverview'
 
 const { batchCount, environmentCount, highRiskCount, ownerCount } =
   useRestorationOverview()
+const { batchesWithStage, orderedHistory } = useRestorationFlow()
 
 const statCards = [
   { label: '在册批次', value: batchCount.value },
@@ -38,7 +42,7 @@ const statCards = [
 
     <section class="two-column">
       <PanelSection title="重点批次" badge="优先处理">
-        <BatchGrid :items="restorationBatches" />
+        <BatchGrid :items="batchesWithStage" />
       </PanelSection>
 
       <PanelSection title="当日工序" badge="修复流程">
@@ -47,6 +51,14 @@ const statCards = [
         </ol>
       </PanelSection>
     </section>
+
+    <PanelSection title="办理过程" badge="阶段流转 · 可回退">
+      <StageFlowFeedback />
+      <div class="flow-grid">
+        <StageTransitionForm />
+        <StageHistoryList :records="orderedHistory" />
+      </div>
+    </PanelSection>
 
     <PanelSection title="环境参数" badge="修复室 2">
       <EnvironmentCards :items="restorationEnvironment" />
@@ -82,9 +94,17 @@ const statCards = [
   margin-top: 12px;
 }
 
+.flow-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 20px;
+  align-items: start;
+}
+
 @media (max-width: 980px) {
   .stats-grid,
-  .two-column {
+  .two-column,
+  .flow-grid {
     grid-template-columns: 1fr;
   }
 }
